@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2E059BA3-B0CC-451B-80DD-B8C9E81C756F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ActualClownHorn</RootNamespace>
+    <AssemblyName>ActualClownHorn</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>..\..\..\..\Users\xboxl\Desktop\Lethal My Mods\BepInEx\core\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\..\..\..\Users\xboxl\Desktop\Lethal My Mods\Lethal Company_Data\Managed\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx">
+      <HintPath>..\..\..\..\Users\xboxl\Desktop\Lethal My Mods\BepInEx\core\BepInEx.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Unity.Netcode.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\..\..\Users\xboxl\Desktop\Lethal My Mods\Lethal Company_Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AudioModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Users\xboxl\Desktop\Lethal My Mods\Lethal Company_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\..\..\..\Users\xboxl\Desktop\Lethal My Mods\Lethal Company_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestAudioModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Users\xboxl\Desktop\Lethal My Mods\Lethal Company_Data\Managed\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Users\xboxl\Desktop\Lethal My Mods\Lethal Company_Data\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Patches\GrabbableObjectPatch.cs" />
+    <Compile Include="Plugin.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="far.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="near.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="manifest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="README.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>@echo off
+setlocal enabledelayedexpansion
+
+goto start
+
+REM set "destinationPath=$(TargetDir)..\Lethal\BepInEx\plugins"
+REM set "inputFiles=$(ProjectName).dll near.mp3 far.mp3"
+
+:Copy
+set "destinationPath=%251"
+
+set "inputFiles=%25~2"
+
+for %25%25i in (%25inputFiles%25) do (
+    set "sourcePath=!TargetDir!%25%25i"
+    
+    if exist "!sourcePath!" (
+        copy "!sourcePath!" "%25destinationPath%25"
+    ) else (
+        echo Warning: File not found - !sourcePath!
+    )
+)
+
+exit /B
+
+:start
+echo Starting copy process
+call :Copy "$(TargetDir)..\Lethal\BepInEx\plugins" "$(ProjectName).dll near.mp3 far.mp3"
+echo Copy process completed.
+
+echo Moving onto plugin creating.
+call :Copy "$(TargetDir)..\Plugin" "$(ProjectName).dll near.mp3 far.mp3 icon.png manifest.json README.md"
+echo Plugin process completed</PostBuildEvent>
+  </PropertyGroup>
+</Project>

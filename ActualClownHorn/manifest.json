@@ -1,0 +1,10 @@
+{
+  "name": "ActualClownHorn",
+  "author": "Flillip",
+  "version_number": "1.0.0",
+  "website_url": "https://github.com/Flillip/ActualClownHorn",
+  "description": "Makes the clown horn play an actual clown horn",
+  "dependencies": [
+    "BepInEx-BepInExPack-5.4.2100"
+  ]
+}
