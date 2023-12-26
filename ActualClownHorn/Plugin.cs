@@ -10,7 +10,7 @@ namespace ActualClownHorn
     {
         internal const string ModGuid = "ActualClownHorn";
         internal const string ModName = "Actual Clown Horn";
-        internal const string ModVersion = "1.0.0";
+        internal const string ModVersion = "1.0.1";
         internal const string ModAuthor = "flillip";
 
         private readonly Harmony _harmony = new Harmony(ModGuid);
